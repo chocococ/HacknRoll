@@ -1,155 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fillViewport="true"
     android:layout_height="match_parent">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center"
+    <TextView
+        android:id="@+id/tv_question"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:context=".QuizQuestionsActivity">
+        android:layout_margin="50dp"
+        android:layout_marginTop="75dp"
+        android:text="Question"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pb" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="Question"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:id="@+id/tv_question"/>
+    <TextView
+        android:id="@+id/tv_optionOne"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Option 1"
+        android:padding="15dp"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="17sp"
+        android:textColor="#7A8089"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_question"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/canada"/> -->
+    <TextView
+        android:id="@+id/tv_optionTwo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Option 2"
+        android:padding="15dp"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="17sp"
+        android:textColor="#7A8089"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_optionOne"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/ll_progressbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_optionThree"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Option 3"
+        android:padding="15dp"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="17sp"
+        android:textColor="#7A8089"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_optionTwo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_optionFour"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Option 4"
+        android:padding="15dp"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="17sp"
+        android:textColor="#7A8089"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_optionThree"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-            <ProgressBar
-                android:id="@+id/pb"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:indeterminate="false"
-                android:max="10"
-                android:minHeight="50dp"
-                android:progress="0" />
+    <Button
+        android:id="@+id/btnPrevious"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Previous"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSubmit"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSubmit"
+        app:layout_constraintTop_toTopOf="@+id/btnSubmit"
+        app:layout_constraintWidth_percent="0.3" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:id="@+id/tv_progress"
-                android:textColor="@color/black"
-                android:text="1/10"
-                android:textSize="15sp"
-                android:gravity="center"/>
+    <!-- Modify Submit Button -->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintStart_toEndOf="@+id/btnPrevious"
+        app:layout_constraintEnd_toStartOf="@+id/btnNext"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_optionFour"
+        app:layout_constraintWidth_percent="0.4" />
 
+    <!-- Add Next Button -->
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        app:layout_constraintStart_toEndOf="@+id/btnSubmit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSubmit"
+        app:layout_constraintTop_toTopOf="@+id/btnSubmit"
+        app:layout_constraintWidth_percent="0.3" />
 
+    <ProgressBar
+        android:id="@+id/pb"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:indeterminate="false"
+        android:max="10"
+        android:progress="0"
+        android:progressTint="@color/purple_700"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1/10"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/pb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        </LinearLayout>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:id="@+id/tv_optionOne"
-            android:text="Option 1"
-            android:padding="15dp"
-            android:background="@drawable/default_option_border"
-
-            android:textSize="17sp"
-            android:textColor="#7A8089"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:id="@+id/tv_optionTwo"
-            android:text="Option 2"
-            android:padding="15dp"
-
-            android:background="@drawable/default_option_border"
-
-            android:textSize="17sp"
-            android:textColor="#7A8089"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:id="@+id/tv_optionThree"
-            android:text="Option 3"
-            android:textSize="17sp"
-            android:padding="15dp"
-
-            android:background="@drawable/default_option_border"
-            android:textColor="#7A8089"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:id="@+id/tv_optionFour"
-            android:text="Option 4"
-            android:textSize="17sp"
-            android:padding="15dp"
-
-            android:textColor="#7A8089"
-            android:background="@drawable/default_option_border"
-
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-
-
-
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:id="@+id/btnSubmit"
-            android:text="SUBMIT"/>
-
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Switch" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </LinearLayout>
-</ScrollView>
-
-</layout>

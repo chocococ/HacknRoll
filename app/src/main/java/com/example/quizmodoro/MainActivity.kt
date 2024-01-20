@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val deviceManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        val lockDeviceFunction = ComponentName(this, AdminReceiver::class.java)
-        if (!deviceManager.isAdminActive(lockDeviceFunction)) {
-            initialiseAdminPrivileges()
-        }
+//
+//        val deviceManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+//        val lockDeviceFunction = ComponentName(this, AdminReceiver::class.java)
+//        if (!deviceManager.isAdminActive(lockDeviceFunction)) {
+//            initialiseAdminPrivileges()
+//        }
 
         emptyTimer()
     }
@@ -77,22 +77,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initialiseAdminPrivileges() {
-        val lockDeviceFunction = ComponentName(this, AdminReceiver::class.java)
-        adminEnableResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Admin privileges granted", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Admin privileges not granted", Toast.LENGTH_SHORT).show()
-            }
-        }
-        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {
-            val text: String = "This app requires permission to lock your phone during the indicated pomodoro session."
-            putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, lockDeviceFunction)
-            putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, text)
-        }
-        adminEnableResultLauncher.launch(intent)
-    }
+//    private fun initialiseAdminPrivileges() {
+//        val lockDeviceFunction = ComponentName(this, AdminReceiver::class.java)
+//        adminEnableResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                Toast.makeText(this, "Admin privileges granted", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(this, "Admin privileges not granted", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {
+//            val text: String = "This app requires permission to lock your phone during the indicated pomodoro session."
+//            putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, lockDeviceFunction)
+//            putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, text)
+//        }
+//        adminEnableResultLauncher.launch(intent)
+//    }
 
 
 
@@ -115,16 +115,21 @@ class MainActivity : AppCompatActivity() {
                 remainingTimeInMillis = millisUntilFinished
                 updateTimerUI(millisUntilFinished)
                 trackProgressBar()
-                val deviceManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-                deviceManager.lockNow()
+//                val deviceManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+//                deviceManager.lockNow()
             }
             override fun onFinish() {
                 Toast.makeText(this@MainActivity, "Pomodoro session ended", Toast.LENGTH_SHORT).show()
                 resetTimer()
+                //navigateToQuiz()
             }
+
         }.start()
     }
-
+    private fun navigateToQuiz() {
+        val intent = Intent(this, QuizQuestionActivity::class.java)
+        startActivity(intent)
+    }
     private fun stopTimer() {
         countDownTimer?.cancel()
         updateTimerUI(remainingTimeInMillis)
@@ -148,6 +153,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+
     private fun trackProgressBar() {
         val progress = ((initialTimeInMillis - remainingTimeInMillis).toFloat() / initialTimeInMillis * 100).toInt()
         timerBinding.progressBar.progress = progress
@@ -162,4 +169,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+
 }
+
