@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/", upload.single("pdf"), async (req, res) => {
+app.post("/", upload.array("image", 16), async (req, res) => {
   // USING GEMINI PRO FOR TEXT ONLY
   // console.log(req.body);
   // const result = await model.generateContent(req.body.question);
@@ -42,20 +42,19 @@ app.post("/", upload.single("pdf"), async (req, res) => {
   // res.json(text);
 
   // TESTING OUT GEMINI PRO VISION FOR IMAGE PROMPTS AS WELL
-
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
+  if (!req.files) {
+    return res.status(400).send("No files uploaded.");
   }
 
-  const pngPages = await pdfToPng(req.file.buffer, {
-    outputFolder: "images",
-  });
-  const imageParts = pngPages.map((page) =>
-    fileToGenerativePart(page.path, "image/png")
-  );
+  const imageParts = req.files?.map((image) => ({
+    inlineData: {
+      data: image.buffer.toString("base64"),
+      mimeType: "image/png",
+    },
+  }));
 
   const prompt =
-    "I am studying for a quiz. This are pictures of my notes. Using these pictures and only information available in these pictures, help me to generate some questions and answers to test my knowledge. It should be in the format Question: ... Answer: ...";
+    "I am studying for a quiz. This are pictures of my notes. Using these pictures and only information available in these pictures, help me to generate some questions and answers to test my knowledge. It should be in the format Question: ... Answer: ... The questions asked should be an MCQ format. The answer should be a single word or a short phrase. There should be one correct answer only indicated by appending (CORRECT) to the end of the answer.";
 
   const result = await model.generateContent([prompt, ...imageParts]);
   const response = await result.response;
