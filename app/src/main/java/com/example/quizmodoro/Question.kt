@@ -1,6 +1,6 @@
 package com.example.quizmodoro
 
-class Question {
+//class Question {
     // This is a simplified representation of your network call to fetch questions.
 // You would use Retrofit or another HTTP library to actually implement this.
 //    fun fetchQuestionsFromGoogleBard() {
@@ -40,4 +40,15 @@ class Question {
 //        // Logic to display questions in the UI
 //    }
 
-}
+//}
+
+data class Question(
+    val id: Int,
+    val question: String,
+    val image: Int?, // Resource ID for the image, if any
+    val optionOne: String,
+    val optionTwo: String,
+    val optionThree: String,
+    val optionFour: String,
+    val correctAnswer: Int // Assuming this is the index of the correct answer
+)

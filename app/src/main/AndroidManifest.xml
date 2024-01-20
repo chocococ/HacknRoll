@@ -22,6 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".QuizQuestionActivity"
+            android:label="@string/app_name"
+            android:exported="true"> <!-- Change exported to true if this activity is an entry point from other apps or the launcher -->
+            <!-- No intent-filter needed unless you're declaring this activity as another entry point -->
+
+        </activity>
 
         <receiver
             android:name=".AdminReceiver"

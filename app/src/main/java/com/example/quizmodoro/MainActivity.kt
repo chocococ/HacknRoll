@@ -121,10 +121,15 @@ class MainActivity : AppCompatActivity() {
             override fun onFinish() {
                 Toast.makeText(this@MainActivity, "Pomodoro session ended", Toast.LENGTH_SHORT).show()
                 resetTimer()
+                navigateToQuiz()
             }
+
         }.start()
     }
-
+    private fun navigateToQuiz() {
+        val intent = Intent(this, QuizQuestionActivity::class.java)
+        startActivity(intent)
+    }
     private fun stopTimer() {
         countDownTimer?.cancel()
         updateTimerUI(remainingTimeInMillis)
