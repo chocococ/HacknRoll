@@ -25,8 +25,14 @@ import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.widget.FrameLayout
+import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
@@ -47,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         if (!deviceManager.isAdminActive(lockDeviceFunction)) {
             initialiseAdminPrivileges()
         }
-
         emptyTimer()
     }
 
@@ -56,6 +61,25 @@ class MainActivity : AppCompatActivity() {
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
 
+        val composeView = findViewById<ComposeView>(R.id.compose_view)
+        composeView.apply {
+            // Dispose of the Composition when the view's LifecycleOwner
+            // is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                // In Compose world
+                CircularBar(
+                    modifier = Modifier,
+                    padding = 50f,
+                    stroke = 35f,
+                    cap = StrokeCap.Round,
+                    initialAngle = 0.0,
+                    onProgressChanged = {
+                        // Your progress change handling
+                    }
+                )
+            }
+        }
         mainBinding.startButton.setOnClickListener {
             val timeText = mainBinding.timeSelection.text.toString()
 
