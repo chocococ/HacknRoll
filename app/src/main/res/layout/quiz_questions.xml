@@ -9,20 +9,21 @@
         android:id="@+id/tv_question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="50dp"
+        android:layout_marginTop="75dp"
         android:text="Question"
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/pb" />
 
     <TextView
         android:id="@+id/tv_optionOne"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:text="Option 1"
         android:padding="15dp"
         android:background="@drawable/default_option_border"
@@ -130,11 +131,12 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="9dp"
         android:indeterminate="false"
         android:max="10"
         android:progress="0"
-        app:layout_constraintTop_toBottomOf="@id/btnSubmit"
+        android:progressTint="@color/purple_700"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

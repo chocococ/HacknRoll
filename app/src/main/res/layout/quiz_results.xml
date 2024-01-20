@@ -21,13 +21,16 @@
 
     <ImageView
         android:id="@+id/iv_trophy"
-        android:layout_width="wrap_content"
-        android:layout_height="350dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:contentDescription="image"
         android:src="@drawable/win"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+
+         />
 
     <TextView
         android:id="@+id/tv_congratulations"

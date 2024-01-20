@@ -13,7 +13,7 @@ import com.example.quizmodoro.databinding.ActivityMainBinding
 import com.example.quizmodoro.databinding.QuizQuestionsBinding
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
-    private var currentPosition = 1 // to track which question we're on
+    private var currentPosition = 0 // to track which question we're on
     private lateinit var questionsList: ArrayList<Question> // the list of questions
     private lateinit var binding: QuizQuestionsBinding // Corrected binding class name
     private var mSelectedOptionPosition: Int = 0
@@ -31,9 +31,9 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         setupClickListeners()
 
     }
-    fun getQuestions() {
-        mQuestionList = Constants.getQuestions()
-    }
+//    fun getQuestions() {
+//        mQuestionList = Constants.getQuestions()
+//    }
     private fun setupClickListeners() {
         binding.tvOptionOne.setOnClickListener(this)
         binding.tvOptionTwo.setOnClickListener(this)
@@ -81,13 +81,20 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setQuestion() {
         questionsList = generateDummyQuestions() // Use the function to generate questions
-        val question = questionsList[currentPosition - 1]
+        val question = questionsList[currentPosition]
         binding.tvQuestion.text = question.question
         // Optionally set image if you have one
         binding.tvOptionOne.text = question.optionOne
         binding.tvOptionTwo.text = question.optionTwo
         binding.tvOptionThree.text = question.optionThree
         binding.tvOptionFour.text = question.optionFour
+
+        //update the progress bar
+        binding.pb.max = questionsList.size
+        binding.pb.progress = currentPosition
+
+        // Update the text view that shows the progress, e.g., "2 / 10"
+        binding.tvProgress.text = "${currentPosition}/${questionsList.size}"
 
         // Update the visibility of the Next/Submit button.
         binding.btnNext.visibility = if (currentPosition == questionsList.size - 1) View.INVISIBLE else View.VISIBLE
@@ -203,8 +210,9 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun handlePreviousButtonClick() {
         if (currentPosition > 0) {
-            saveAnswer()
             currentPosition--
+            saveAnswer()
+
             setQuestion()
         }
     }
@@ -229,10 +237,10 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun navigateToResult() {
-        val intent = Intent(this@QuizQuestionActivity, ResultActivity::class.java)
-        startActivity(intent)
-    }
+//    private fun navigateToResult() {
+//        val intent = Intent(this@QuizQuestionActivity, ResultActivity::class.java)
+//        startActivity(intent)
+//    }
 
 
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
