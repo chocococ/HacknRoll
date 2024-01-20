@@ -29,8 +29,10 @@
     <string name="continue_to_lock">Continue to Lock</string>
 
     <string name="session_end">Your session has ended.</string>
-    <string name="notes_info">Enter your notes for quiz questions to be generated. Maximum number of images: 16</string>
-    <string name="upload_button">Upload File</string>
+    <string name="enter_notes_extended">Enter your notes for quiz
+    questions to be generated.</string>
+    <string name="max_num_pages">Maximum number of images: 16</string>
+    <string name="upload_button">Upload Images</string>
 
     <string name="accessibility_service">Hello I need your access</string>
 
