@@ -1,6 +1,7 @@
 package com.example.quizmodoro
 
 import android.app.Activity
+import android.content.Intent
 import android.app.Dialog
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -20,11 +21,18 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizmodoro.databinding.ActivityMainBinding
 import com.example.quizmodoro.databinding.ProcessTimerBinding
+import android.provider.Settings
+import com.example.quizmodoro.UploadActivity
+import com.example.quizmodoro.databinding.SessionEndMainBinding
 
+
+import com.example.quizmodoro.databinding.LockedLayoutBinding
+import com.example.quizmodoro.OverlayService
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
+import android.net.Uri
+
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 
@@ -38,6 +46,14 @@ class MainActivity : AppCompatActivity() {
         private lateinit var adminEnableResultLauncher: ActivityResultLauncher<Intent>
 
     }
+    private fun openOverlaySettings(context: Context) {
+        val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.packageName))
+        context.startActivity(intent)
+    }
+
+    private fun isOverlayEnabled(context: Context): Boolean {
+        return Settings.canDrawOverlays(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +63,13 @@ class MainActivity : AppCompatActivity() {
 //        if (!deviceManager.isAdminActive(lockDeviceFunction)) {
 //            initialiseAdminPrivileges()
 //        }
+        if (!isOverlayEnabled(this)) {
+            openOverlaySettings(this)
+        }
 
         emptyTimer()
     }
+
 
 
     private fun emptyTimer() {
@@ -61,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
             if (timeText.isNotBlank()) {
                 val convertedTime = convertToTime(timeText)
-                initialTimeInMillis = convertedTime * 60000
+                initialTimeInMillis = convertedTime * 1000
                 remainingTimeInMillis = initialTimeInMillis
 
 
@@ -120,10 +140,20 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onFinish() {
                 Toast.makeText(this@MainActivity, "Pomodoro session ended", Toast.LENGTH_SHORT).show()
-                resetTimer()
-                //navigateToQuiz()
-            }
+//                val overlayIntent = Intent(this@MainActivity, OverlayService::class.java)
+//                startService(overlayIntent)
+//                endSessionBinding = SessionEndMainBinding.inflate(layoutInflater)
+//                setContentView(endSessionBinding.root)
+                val intent = Intent(this@MainActivity, UploadActivity::class.java)
+                startActivity(intent)
 
+                resetTimer()
+
+//                val lockedTimerBinding = LockedLayoutBinding.inflate(layoutInflater)
+//                setContentView(lockedTimerBinding.root)
+//                val lockedTimer = LockedTimer(this@MainActivity, lockedTimerBinding)
+
+            }
         }.start()
     }
     private fun navigateToQuiz() {
@@ -149,8 +179,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun convertToTime(stringTime: String): Long {
         val minutes = stringTime.split(":").toTypedArray()[0];
-        return minutes.toLong();
+        val seconds = stringTime.split(":").toTypedArray()[1];
+
+        val totalTime = (minutes.toLong()*60)+seconds.toLong();
+        return totalTime;
     }
+
+
 
 
 
