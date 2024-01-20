@@ -1,12 +1,15 @@
 package com.example.quizmodoro
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.quizmodoro.databinding.ActivityMainBinding
 import com.example.quizmodoro.databinding.QuizQuestionsBinding
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
@@ -15,6 +18,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: QuizQuestionsBinding // Corrected binding class name
     private var mSelectedOptionPosition: Int = 0
     private var mAnswers: MutableList<Int> = mutableListOf() // to keep track of selected options
+    private var mQuestionList: ArrayList<Question>? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,23 +29,26 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         //questionsList = fetchQuestions() // This function needs to be implemented to fetch questions
         setQuestion()
         setupClickListeners()
+
+    }
+    fun getQuestions() {
+        mQuestionList = Constants.getQuestions()
     }
     private fun setupClickListeners() {
         binding.tvOptionOne.setOnClickListener(this)
         binding.tvOptionTwo.setOnClickListener(this)
         binding.tvOptionThree.setOnClickListener(this)
         binding.tvOptionFour.setOnClickListener(this)
-        binding.btnSubmit.setOnClickListener(this)
         binding.btnNext.setOnClickListener {
-            if (currentPosition < questionsList.size - 1) {
-                saveAnswer()
-                currentPosition++
-                setQuestion()
-            } else {
-                saveAnswer()
-                finishQuiz()
-            }
+            handleNextButtonClick()
         }
+        binding.btnPrevious.setOnClickListener {
+            handlePreviousButtonClick()
+        }
+        binding.btnSubmit.setOnClickListener {
+            finishQuiz()
+        }
+
     }
 
     private fun saveAnswer() {
@@ -65,46 +73,32 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
         for (option in options) {
             option.setBackgroundResource(R.drawable.default_option_border)
-            // Reset other visual properties if needed
+            option.setTextColor(Color.parseColor("#7A8089")) // Reset the text color
+            option.typeface = Typeface.DEFAULT // Reset the typeface to default
         }
     }
 
 
-//    private fun setQuestion() {
-//        questionsList = generateDummyQuestions() // Use the function to generate questions
-//        val question = questionsList[currentPosition - 1]
-//        binding.tvQuestion.text = question.question
-//        // Optionally set image if you have one
-//        binding.tvOptionOne.text = question.optionOne
-//        binding.tvOptionTwo.text = question.optionTwo
-//        binding.tvOptionThree.text = question.optionThree
-//        binding.tvOptionFour.text = question.optionFour
-//        resetOptionsBackground()
-//        // You might want to update a progress bar or question number display here
-//    }
+    private fun setQuestion() {
+        questionsList = generateDummyQuestions() // Use the function to generate questions
+        val question = questionsList[currentPosition - 1]
+        binding.tvQuestion.text = question.question
+        // Optionally set image if you have one
+        binding.tvOptionOne.text = question.optionOne
+        binding.tvOptionTwo.text = question.optionTwo
+        binding.tvOptionThree.text = question.optionThree
+        binding.tvOptionFour.text = question.optionFour
 
-//    private fun setQuestion() {
-//        if (currentPosition < questionsList.size) {
-//            val question = questionsList[currentPosition]
-//            // Set question data to views...
-//            updateButtons()
-//        } else {
-//            // End of quiz logic, show result or navigate to a result activity
-//        }
-//    }
-private fun setQuestion() {
-    questionsList = generateDummyQuestions()
-    if (currentPosition < questionsList.size) {
-        val question = questionsList[currentPosition]
-        // Update UI with question data
-        // ...
+        // Update the visibility of the Next/Submit button.
+        binding.btnNext.visibility = if (currentPosition == questionsList.size - 1) View.INVISIBLE else View.VISIBLE
+        binding.btnSubmit.visibility = if (currentPosition == questionsList.size - 1) View.VISIBLE else View.INVISIBLE
+        binding.btnPrevious.visibility = if (currentPosition == 0) View.INVISIBLE else View.VISIBLE
 
-        // Reset previously selected options
+        // Reset selected option view
         mSelectedOptionPosition = mAnswers.getOrNull(currentPosition) ?: 0
         resetOptionsBackground()
         highlightSelectedOption()
     }
-}
 
     private fun highlightSelectedOption() {
         if (mSelectedOptionPosition != 0) {
@@ -123,14 +117,8 @@ private fun setQuestion() {
     }
 
 
-    private fun updateButtons() {
-        binding.btnSubmit.text = if (currentPosition == questionsList.size - 1) "Finish" else "Next"
-        binding.btnPrevious.visibility = if (currentPosition == 0) View.INVISIBLE else View.VISIBLE
 
-        // Set selected option if any
-        val selectedOption = mAnswers.getOrNull(currentPosition)
-        selectedOption?.let { selectedOptionView(findViewById(it), it) }
-    }
+
 
 
     private fun generateDummyQuestions(): ArrayList<Question> {
@@ -138,7 +126,7 @@ private fun setQuestion() {
         questions.add(Question(
             id = 1,
             question = "What is the capital of France?",
-            image = null, // Assuming no image for now
+             // Assuming no image for now
             optionOne = "New York",
             optionTwo = "London",
             optionThree = "Paris",
@@ -148,7 +136,7 @@ private fun setQuestion() {
         questions.add(Question(
             id = 2,
             question = "Which famous scientist developed the theory of relativity?",
-            image = null,
+
             optionOne = "Isaac Newton",
             optionTwo = "Galileo Galilei",
             optionThree = "Albert Einstein",
@@ -160,7 +148,7 @@ private fun setQuestion() {
         questions.add(Question(
             id = 3,
             question = "What is the capital of Japan?",
-            image = null,
+
             optionOne = "Beijing",
             optionTwo = "Seoul",
             optionThree = "Tokyo",
@@ -185,31 +173,42 @@ private fun setQuestion() {
                 selectedOptionView(binding.tvOptionFour, 4)
             }
             // Handle other clicks if necessary (e.g., submit button)
-            R.id.btnSubmit -> {
-                if (mSelectedOptionPosition != 0) {
-                    // Save the selected option
-                    if (currentPosition < mAnswers.size) {
-                        mAnswers[currentPosition] = mSelectedOptionPosition
-                    } else {
-                        mAnswers.add(mSelectedOptionPosition)
-                    }
-                }
-                if (currentPosition < questionsList.size - 1) {
-                    currentPosition++
-                    setQuestion()
-                } else {
-                    // Finish the quiz and show results
-                    finishQuiz()
-                }
-            }
-            R.id.btnPrevious -> {
-                if (currentPosition > 0) {
-                    currentPosition--
-                    setQuestion()
-                }
+            R.id.btnNext -> handleNextButtonClick()
+            R.id.btnPrevious -> handlePreviousButtonClick()
+            R.id.btnSubmit -> finishQuiz()
+        }
+    }
+    private fun handleNextButtonClick() {
+        if (mSelectedOptionPosition == 0) {
+            // No option selected, show a prompt
+            Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
+        } else {
+            saveAnswer()
+            if (currentPosition < questionsList.size - 1) {
+                currentPosition++
+                setQuestion()
+            } else {
+                // Last question, should not happen as Next is invisible, but safe to handle
+                binding.btnSubmit.performClick()
+                Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
+                val intent = Intent(this,ResultActivity::class.java)
+                intent.putExtra(Constants.USER_NAME, "abc")
+                intent.putExtra(Constants.CORRECT_ANSWER, "mCorrectAnswer")
+                intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
+                startActivity(intent)
+                finish()
             }
         }
     }
+
+    private fun handlePreviousButtonClick() {
+        if (currentPosition > 0) {
+            saveAnswer()
+            currentPosition--
+            setQuestion()
+        }
+    }
+
 
     private fun finishQuiz() {
         var score = 0
@@ -218,37 +217,33 @@ private fun setQuestion() {
                 score++
             }
         }
-        // Show the result (score) or navigate to a result screen
-        // ...
+        // Create an intent that launches the ResultActivity
+        Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
+        val intent = Intent(this, ResultActivity::class.java)
+
+        intent.putExtra(Constants.USER_NAME, "abc")
+        intent.putExtra(Constants.CORRECT_ANSWER, "mCorrectAnswer")
+        intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
+        startActivity(intent)
+        finish()
+
+    }
+
+    private fun navigateToResult() {
+        val intent = Intent(this@QuizQuestionActivity, ResultActivity::class.java)
+        startActivity(intent)
     }
 
 
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
         resetOptionsBackground() // Reset background of all options
         mSelectedOptionPosition = selectedOptionNum // Save the selected option position
-//        tv.setBackgroundResource(R.drawable.selected_option_border) // Change background of the selected option
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border)
-        // You can also change text color, style, etc. here if needed
     }
 
-    private fun answerView(answer: Int, drawableView: Int) {
-        when (answer) {
-            1 -> {
-                binding.tvOptionOne?.background = ContextCompat.getDrawable(this,drawableView)
-            }
-            2 -> {
-                binding.tvOptionTwo?.background = ContextCompat.getDrawable(this,drawableView)
-            }
-            3 -> {
-                binding.tvOptionThree?.background = ContextCompat.getDrawable(this,drawableView)
-            }
-            4 -> {
-                binding.tvOptionFour?.background = ContextCompat.getDrawable(this,drawableView)
-            }
-        }
-    }
+
 
 
 }

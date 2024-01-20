@@ -45,7 +45,7 @@ package com.example.quizmodoro
 data class Question(
     val id: Int,
     val question: String,
-    val image: Int?, // Resource ID for the image, if any
+    // Resource ID for the image, if any
     val optionOne: String,
     val optionTwo: String,
     val optionThree: String,
