@@ -22,8 +22,19 @@
     <string name="locked_timer_message1">Your phone is locked!</string>
     <string name="locked_timer_message2">go revise again.</string>
 
+    <string name="results_marks">10/10</string>
+    <string name="passed_remarks">You passed!</string>
+    <string name="failed_remarks">You failed!</string>
+    <string name="continue_session">Start session</string>
+    <string name="continue_to_lock">Continue to Lock</string>
 
+    <string name="session_end">Your session has ended.</string>
+    <string name="notes_info">Enter your notes for quiz questions to be generated. Maximum number of images: 16</string>
+    <string name="upload_button">Upload File</string>
 
     <string name="accessibility_service">Hello I need your access</string>
+
+    <string name="generating_quiz">Generating quiz…</string>
+    <string name="generating_cd">Loading page while Bard is creating the quiz</string>
 
 </resources>

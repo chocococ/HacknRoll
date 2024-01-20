@@ -15,6 +15,8 @@ import com.example.quizmodoro.databinding.ActivityMainBinding
 import com.example.quizmodoro.databinding.ProcessTimerBinding
 import com.example.quizmodoro.databinding.LockedLayoutBinding
 import com.example.quizmodoro.OverlayService
+import com.example.quizmodoro.UploadActivity
+import com.example.quizmodoro.databinding.SessionEndMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
@@ -63,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                 val convertedTime = convertToTime(timeText)
                 initialTimeInMillis = convertedTime * 60000
                 remainingTimeInMillis = initialTimeInMillis
-
 
 
                 timerBinding = ProcessTimerBinding.inflate(layoutInflater)
@@ -122,8 +123,13 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onFinish() {
                 Toast.makeText(this@MainActivity, "Pomodoro session ended", Toast.LENGTH_SHORT).show()
-                val overlayIntent = Intent(this@MainActivity, OverlayService::class.java)
-                startService(overlayIntent)
+//                val overlayIntent = Intent(this@MainActivity, OverlayService::class.java)
+//                startService(overlayIntent)
+//                endSessionBinding = SessionEndMainBinding.inflate(layoutInflater)
+//                setContentView(endSessionBinding.root)
+                val intent = Intent(this@MainActivity, UploadActivity::class.java)
+                startActivity(intent)
+
                 resetTimer()
 
 //                val lockedTimerBinding = LockedLayoutBinding.inflate(layoutInflater)

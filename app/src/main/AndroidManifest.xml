@@ -41,6 +41,9 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".UploadActivity"/>
+
+
         <service android:name="com.example.quizmodoro.OverlayService"
             android:exported="false"/>
 
