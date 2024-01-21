@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/results"
+        android:id="@+id/passed_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
@@ -58,6 +58,7 @@
         app:layout_constraintTop_toTopOf="@+id/border_rectangle" />
 
     <Button
+        android:id="@+id/start_again"
         android:layout_width="180dp"
         android:layout_height="35dp"
         android:background="@drawable/purple_button"
@@ -231,6 +232,101 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/border_rectangle"
         app:layout_constraintTop_toBottomOf="@+id/border_rectangle" />
+
+    <TextView
+        android:id="@+id/tv_question"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="Question"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_optionOne"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/border_rectangle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_optionOne"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="76dp"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Option 1"
+        android:textColor="#7A8089"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_optionThree"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_optionFour"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Option 4"
+        android:textColor="#7A8089"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_optionThree"
+        app:layout_constraintVertical_bias="0.466" />
+
+    <TextView
+        android:id="@+id/tv_optionThree"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Option 3"
+        android:textColor="#7A8089"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_optionTwo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_option_border"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Option 2"
+        android:textColor="#7A8089"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_optionThree"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_optionOne" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
