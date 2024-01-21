@@ -329,5 +329,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_optionOne" />
 
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        app:layout_constraintStart_toEndOf="@+id/tv_optionFour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_optionFour"
+        app:layout_constraintTop_toTopOf="@+id/tv_optionFour"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <Button
+        android:id="@+id/btnPrevious"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Previous"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_optionFour"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_optionFour"
+        app:layout_constraintTop_toTopOf="@+id/tv_optionFour"
+        app:layout_constraintWidth_percent="0.3" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
