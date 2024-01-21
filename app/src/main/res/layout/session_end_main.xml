@@ -44,42 +44,29 @@
             android:text="@string/session_end"
             android:textColor="@color/black"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/enter_notes_extended"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.764" />
+            app:layout_constraintVertical_bias="0.285" />
 
         <TextView
             android:id="@+id/enter_notes_extended"
             android:layout_width="283dp"
             android:layout_height="57dp"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="128dp"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:text="@string/enter_notes_extended"
             android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="126dp" />
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/max_num_pages"
-            android:layout_width="260dp"
-            android:layout_height="20dp"
-            android:layout_alignParentTop="true"
-            android:fontFamily="@font/poppins_regular"
-            android:gravity="center"
-            android:text="@string/max_num_pages"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/upload_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/enter_notes_extended"
-            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

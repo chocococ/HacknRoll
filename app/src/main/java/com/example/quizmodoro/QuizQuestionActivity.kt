@@ -298,6 +298,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             Log.d("tag", "more than 5")
             val intent = Intent(this, PassedResults::class.java)
             intent.putExtra("SCORE", score)
+            intent.putExtra("questions", questionsList)
+            intent.putExtra("answers", mAnswers)
             startActivity(intent)
         }
     }
