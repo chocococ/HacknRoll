@@ -227,7 +227,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
         // Create an intent that launches the ResultActivity
         Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
-        val intent = Intent(this, ResultActivity::class.java)
+        val intent = Intent(this, ReceiveResults::class.java)
 
         intent.putExtra(Constants.USER_NAME, "abc")
         intent.putExtra(Constants.CORRECT_ANSWER, "mCorrectAnswer")
