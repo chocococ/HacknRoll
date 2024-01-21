@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Quizmodoro"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -18,17 +24,36 @@
             android:theme="@style/Theme.Quizmodoro.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".QuizQuestionActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Quizmodoro.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ResultActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Quizmodoro.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".FailedResults"
             android:label="@string/app_name"
             android:exported="true"> <!-- Change exported to true if this activity is an entry point from other apps or the launcher -->
             <!-- No intent-filter needed unless you're declaring this activity as another entry point -->
 
         </activity>
+
+        <activity
+            android:name=".PassedResults"
+            android:label="@string/passed_remarks"
+            android:exported="true">
+        </activity>
+
 
         <receiver
             android:name=".AdminReceiver"
@@ -43,6 +68,12 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".UploadActivity"/>
+
+
+        <service android:name="com.example.quizmodoro.OverlayService"
+            android:exported="false"/>
 
     </application>
 
