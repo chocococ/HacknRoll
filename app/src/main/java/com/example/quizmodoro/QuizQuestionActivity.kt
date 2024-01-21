@@ -17,9 +17,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var questionsList: ArrayList<Question> // the list of questions
     private lateinit var binding: QuizQuestionsBinding // Corrected binding class name
     private var mSelectedOptionPosition: Int = 0
-    private var mAnswers: MutableList<Int> = mutableListOf() // to keep track of selected options
+    private var mAnswers: ArrayList<Int> = ArrayList<Int>() // to keep track of selected options
     private var mQuestionList: ArrayList<Question>? = null
-    private var finalScore = 1;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +31,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         //questionsList = fetchQuestions() // This function needs to be implemented to fetch questions
         if (result != null) {
             fetchQuestions(result = result)
+            setQuestion()
         }
-        setQuestion()
         setupClickListeners()
 
     }
@@ -161,11 +160,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
-
-
-
-
     private fun generateDummyQuestions(): ArrayList<Question> {
         val questions = ArrayList<Question>()
         questions.add(Question(
@@ -267,7 +261,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
         Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
         Log.d("tag", "before checking")
-        checkResults(finalScore)
+        checkResults(score)
         Log.d("tag", "aft checking")
 
 
@@ -291,10 +285,12 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun checkResults(score: Int) {
-        if (score < 5){
+        if (score < 5) {
             Log.d("tag", "less than 5")
             val intent = Intent(this, FailedResults::class.java)
             intent.putExtra("SCORE", score)
+            intent.putExtra("questions", questionsList)
+            intent.putExtra("answers", mAnswers)
             startActivity(intent)
 
 

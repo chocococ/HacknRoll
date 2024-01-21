@@ -145,9 +145,9 @@ class MainActivity : AppCompatActivity() {
 //                endSessionBinding = SessionEndMainBinding.inflate(layoutInflater)
 //                setContentView(endSessionBinding.root)
 
-//                val intent = Intent(this@MainActivity, UploadActivity::class.java)
-//                startActivity(intent)
-                navigateToQuiz()
+                val intent = Intent(this@MainActivity, UploadActivity::class.java)
+                startActivity(intent)
+//                navigateToQuiz()
 
                 resetTimer()
 
