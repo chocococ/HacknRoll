@@ -26,7 +26,12 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding = QuizQuestionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val result = intent.getStringExtra("result")
+
         //questionsList = fetchQuestions() // This function needs to be implemented to fetch questions
+        if (result != null) {
+            fetchQuestions(result = result)
+        }
         setQuestion()
         setupClickListeners()
 
@@ -78,9 +83,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun fetchQuestions(result : String) {
+        questionsList = generateQuestions(result)
+    }
 
     private fun setQuestion() {
-        questionsList = generateDummyQuestions() // Use the function to generate questions
+
+//        questionsList = generateDummyQuestions() // Use the function to generate questions
         val question = questionsList[currentPosition]
         binding.tvQuestion.text = question.question
         // Optionally set image if you have one
@@ -94,7 +103,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding.pb.progress = currentPosition
 
         // Update the text view that shows the progress, e.g., "2 / 10"
-        binding.tvProgress.text = "${currentPosition}/${questionsList.size}"
+        binding.tvProgress.text = "${currentPosition + 1}/${questionsList.size}"
 
         // Update the visibility of the Next/Submit button.
         binding.btnNext.visibility = if (currentPosition == questionsList.size - 1) View.INVISIBLE else View.VISIBLE
@@ -105,6 +114,34 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         mSelectedOptionPosition = mAnswers.getOrNull(currentPosition) ?: 0
         resetOptionsBackground()
         highlightSelectedOption()
+    }
+
+    private fun generateQuestions(result : String) : ArrayList<Question> {
+        val questions = ArrayList<Question>()
+        val arrays = result.split("\\n\\n")
+
+        for (i in arrays.indices) {
+            val parts = arrays[i].split("\\n")
+            var correct = 1
+            for (j in parts.indices) {
+                if (parts[j].contains("(CORRECT)")) {
+                    correct = j
+                }
+            }
+            println("correct: $correct")
+
+            questions.add(Question(
+                id = i,
+                question = parts[0],
+                optionOne = parts[1].replace("(CORRECT)",""),
+                optionTwo = parts[2].replace("(CORRECT)",""),
+                optionThree = parts[3].replace("(CORRECT)",""),
+                optionFour = parts[4].replace("(CORRECT)",""),
+                correctAnswer = correct
+            ))
+        }
+
+        return questions
     }
 
     private fun highlightSelectedOption() {

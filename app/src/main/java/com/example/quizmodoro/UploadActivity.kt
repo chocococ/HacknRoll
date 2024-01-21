@@ -106,7 +106,7 @@ class UploadActivity : AppCompatActivity() {
                         "image",
                         imageFile.name,
                         RequestBody.create(MediaType.parse("image/png"), imageFile)
-                    ) // add here
+                    )
                     .build()
                 val request = Request.Builder()
                     .url("https://quizmodoro.onrender.com/")
@@ -123,7 +123,11 @@ class UploadActivity : AppCompatActivity() {
                         call: Call, response: Response
                     ) {
                         // handle response
-                        println(response.body()?.string())
+                        val body = response.body()?.string()
+                        println(body)
+                        val intent = Intent(this@UploadActivity, QuizQuestionActivity::class.java)
+                        intent.putExtra("result", body)
+                        startActivity(intent)
                     }
                 })
             }
