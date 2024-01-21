@@ -1,7 +1,6 @@
 package com.example.quizmodoro
 
 import android.app.Activity
-import android.content.Intent
 import android.app.Dialog
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -98,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     initialAngle = 0.0,
                     onProgressChanged = {
                         // Your progress change handling
-                        progress -> mainBinding.timeSelection.setText(String.format("%2.0f:%2.0f", floor((progress * 3600) / 60), (progress * 3600) % 60))
+                        progress -> mainBinding.timeSelection.setText(String.format("%02.0f:%02.0f", floor((progress * 3600) / 60), (progress * 3600) % 60))
                     }
                 )
             }
