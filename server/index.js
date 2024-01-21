@@ -54,7 +54,7 @@ app.post("/", upload.array("image", 16), async (req, res) => {
   }));
 
   const prompt =
-    "I am studying for a quiz. This are pictures of my notes. Using these pictures and only information available in these pictures, help me to generate some questions and answers to test my knowledge. It should be in the format Question: ... Answer: ... The questions asked should be an MCQ format. The answer should be a single word or a short phrase. There should be one correct answer only indicated by appending (CORRECT) to the end of the answer.";
+    "I am studying for a quiz. This are pictures of my notes. Using these pictures and only information available in these pictures, help me to generate 10 questions and answers to test my knowledge. It should be in the format Question: ... Answer: ... The questions asked should be an MCQ format with 4 answers each. The answer should be a single word or a short phrase. There should be one correct answer only indicated by appending (CORRECT) to the end of the answer. Between each question, there should be 2 linebreaks('\n\n'). Within a question aka the question and the 4 answers, there should be 1 linebreak('\n').";
 
   const result = await model.generateContent([prompt, ...imageParts]);
   const response = await result.response;
