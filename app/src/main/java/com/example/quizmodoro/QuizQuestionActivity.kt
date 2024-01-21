@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.quizmodoro.databinding.ActivityMainBinding
+import android.util.Log
 import com.example.quizmodoro.databinding.QuizQuestionsBinding
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
@@ -19,6 +19,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private var mSelectedOptionPosition: Int = 0
     private var mAnswers: MutableList<Int> = mutableListOf() // to keep track of selected options
     private var mQuestionList: ArrayList<Question>? = null
+    private var finalScore = 1;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -262,14 +263,15 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                 score++
             }
         }
-        // Create an intent that launches the ResultActivity
-        Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
-        val intent = Intent(this, ReceiveResults::class.java)
 
-        intent.putExtra(Constants.USER_NAME, "abc")
-        intent.putExtra(Constants.CORRECT_ANSWER, "mCorrectAnswer")
-        intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
-        startActivity(intent)
+
+        Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
+        Log.d("tag", "before checking")
+        checkResults(finalScore)
+        Log.d("tag", "aft checking")
+
+
+
         finish()
 
     }
@@ -286,6 +288,22 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border)
+    }
+
+    private fun checkResults(score: Int) {
+        if (score < 5){
+            Log.d("tag", "less than 5")
+            val intent = Intent(this, FailedResults::class.java)
+            intent.putExtra("SCORE", score)
+            startActivity(intent)
+
+
+        } else {
+            Log.d("tag", "more than 5")
+            val intent = Intent(this, PassedResults::class.java)
+            intent.putExtra("SCORE", score)
+            startActivity(intent)
+        }
     }
 
 
