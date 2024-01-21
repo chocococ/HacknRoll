@@ -18,7 +18,7 @@ class OverlayService : Service() {
     private lateinit var windowManager: WindowManager
     private lateinit var binding: LockedLayoutBinding
     private var countDownTimer: CountDownTimer? = null
-    private val initialTimeInMillis: Long = 60000 // 60 seconds
+    private val initialTimeInMillis: Long = 3600000 // 60 seconds
 
     override fun onBind(intent: Intent): IBinder? {
         // Return null as this is not a bound service

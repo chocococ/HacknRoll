@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.quizmodoro.databinding.ActivityMainBinding
+import android.util.Log
 import com.example.quizmodoro.databinding.QuizQuestionsBinding
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
@@ -17,7 +17,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var questionsList: ArrayList<Question> // the list of questions
     private lateinit var binding: QuizQuestionsBinding // Corrected binding class name
     private var mSelectedOptionPosition: Int = 0
-    private var mAnswers: MutableList<Int> = mutableListOf() // to keep track of selected options
+    private var mAnswers: ArrayList<Int> = ArrayList<Int>() // to keep track of selected options
     private var mQuestionList: ArrayList<Question>? = null
 
 
@@ -26,8 +26,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding = QuizQuestionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val result = intent.getStringExtra("result")
+
         //questionsList = fetchQuestions() // This function needs to be implemented to fetch questions
-        setQuestion()
+        if (result != null) {
+            fetchQuestions(result = result)
+            setQuestion()
+        }
         setupClickListeners()
 
     }
@@ -78,9 +83,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun fetchQuestions(result : String) {
+        questionsList = generateQuestions(result)
+    }
 
     private fun setQuestion() {
-        questionsList = generateDummyQuestions() // Use the function to generate questions
+
+//        questionsList = generateDummyQuestions() // Use the function to generate questions
         val question = questionsList[currentPosition]
         binding.tvQuestion.text = question.question
         // Optionally set image if you have one
@@ -94,7 +103,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         binding.pb.progress = currentPosition
 
         // Update the text view that shows the progress, e.g., "2 / 10"
-        binding.tvProgress.text = "${currentPosition}/${questionsList.size}"
+        binding.tvProgress.text = "${currentPosition + 1}/${questionsList.size}"
 
         // Update the visibility of the Next/Submit button.
         binding.btnNext.visibility = if (currentPosition == questionsList.size - 1) View.INVISIBLE else View.VISIBLE
@@ -105,6 +114,34 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         mSelectedOptionPosition = mAnswers.getOrNull(currentPosition) ?: 0
         resetOptionsBackground()
         highlightSelectedOption()
+    }
+
+    private fun generateQuestions(result : String) : ArrayList<Question> {
+        val questions = ArrayList<Question>()
+        val arrays = result.split("\\n\\n")
+
+        for (i in arrays.indices) {
+            val parts = arrays[i].split("\\n")
+            var correct = 1
+            for (j in parts.indices) {
+                if (parts[j].contains("(CORRECT)")) {
+                    correct = j
+                }
+            }
+            println("correct: $correct")
+
+            questions.add(Question(
+                id = i,
+                question = parts[0],
+                optionOne = parts[1].replace("(CORRECT)",""),
+                optionTwo = parts[2].replace("(CORRECT)",""),
+                optionThree = parts[3].replace("(CORRECT)",""),
+                optionFour = parts[4].replace("(CORRECT)",""),
+                correctAnswer = correct
+            ))
+        }
+
+        return questions
     }
 
     private fun highlightSelectedOption() {
@@ -122,11 +159,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
-
-
-
-
 
     private fun generateDummyQuestions(): ArrayList<Question> {
         val questions = ArrayList<Question>()
@@ -225,14 +257,15 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                 score++
             }
         }
-        // Create an intent that launches the ResultActivity
-        Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
-        val intent = Intent(this, ReceiveResults::class.java)
 
-        intent.putExtra(Constants.USER_NAME, "abc")
-        intent.putExtra(Constants.CORRECT_ANSWER, "mCorrectAnswer")
-        intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
-        startActivity(intent)
+
+        Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
+        Log.d("tag", "before checking")
+        checkResults(score)
+        Log.d("tag", "aft checking")
+
+
+
         finish()
 
     }
@@ -249,6 +282,26 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border)
+    }
+
+    private fun checkResults(score: Int) {
+        if (score < 5) {
+            Log.d("tag", "less than 5")
+            val intent = Intent(this, FailedResults::class.java)
+            intent.putExtra("SCORE", score)
+            intent.putExtra("questions", questionsList)
+            intent.putExtra("answers", mAnswers)
+            startActivity(intent)
+
+
+        } else {
+            Log.d("tag", "more than 5")
+            val intent = Intent(this, PassedResults::class.java)
+            intent.putExtra("SCORE", score)
+            intent.putExtra("questions", questionsList)
+            intent.putExtra("answers", mAnswers)
+            startActivity(intent)
+        }
     }
 
 

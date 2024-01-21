@@ -1,7 +1,6 @@
 package com.example.quizmodoro
 
 import android.app.Activity
-import android.content.Intent
 import android.app.Dialog
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -31,10 +30,18 @@ import com.example.quizmodoro.OverlayService
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import androidx.activity.compose.setContent
 import android.net.Uri
 
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.text.set
+import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
@@ -66,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         if (!isOverlayEnabled(this)) {
             openOverlaySettings(this)
         }
-
         emptyTimer()
     }
 
@@ -76,6 +82,26 @@ class MainActivity : AppCompatActivity() {
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
 
+        val composeView = findViewById<ComposeView>(R.id.compose_view)
+        composeView.apply {
+            // Dispose of the Composition when the view's LifecycleOwner
+            // is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                // In Compose world
+                CircularBar(
+                    modifier = Modifier,
+                    padding = 50f,
+                    stroke = 35f,
+                    cap = StrokeCap.Round,
+                    initialAngle = 0.0,
+                    onProgressChanged = {
+                        // Your progress change handling
+                        progress -> mainBinding.timeSelection.setText(String.format("%02.0f:%02.0f", floor((progress * 3600) / 60), (progress * 3600) % 60))
+                    }
+                )
+            }
+        }
         mainBinding.startButton.setOnClickListener {
             val timeText = mainBinding.timeSelection.text.toString()
 
@@ -144,8 +170,10 @@ class MainActivity : AppCompatActivity() {
 //                startService(overlayIntent)
 //                endSessionBinding = SessionEndMainBinding.inflate(layoutInflater)
 //                setContentView(endSessionBinding.root)
+
                 val intent = Intent(this@MainActivity, UploadActivity::class.java)
                 startActivity(intent)
+//                navigateToQuiz()
 
                 resetTimer()
 

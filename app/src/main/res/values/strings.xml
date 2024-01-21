@@ -39,4 +39,8 @@
     <string name="generating_quiz">Generating quiz…</string>
     <string name="generating_cd">Loading page while Bard is creating the quiz</string>
 
+
+    <string name="passed">passed_results</string>
+    <string name="failed">failed_results</string>
+
 </resources>
