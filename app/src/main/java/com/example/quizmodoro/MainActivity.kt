@@ -25,7 +25,6 @@ import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.widget.FrameLayout
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,6 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.text.set
+import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                     initialAngle = 0.0,
                     onProgressChanged = {
                         // Your progress change handling
+                        progress -> mainBinding.timeSelection.setText(String.format("%2.0f:%2.0f", floor((progress * 3600) / 60), (progress * 3600) % 60))
                     }
                 )
             }
